@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createStore, bindActionCreators } from 'redux';
-import { login } from './actions.js';
-import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { login,getData } from './actions.js';
 
 class InnerComponent extends Component {
   componentDidMount(){
@@ -10,10 +9,7 @@ class InnerComponent extends Component {
   }
 
   _onButtonClick = ()=>{
-    axios.get('https://jsonplaceholder.typicode.com/todos').then((response)=>{
-      const { title } = response.data[0];
-      this.props.login({title:title});
-    });
+    this.props.getData();
   }
   render() {
     const { getStatus } = this.props;
@@ -39,7 +35,8 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
   return bindActionCreators({
-    login
+    login,
+    getData
   },dispatch)
 }
 export default connect(mapStateToProps,matchDispatchToProps)(InnerComponent);
